@@ -13,17 +13,43 @@
 #include "cocos2d.h"
 #include "Box2D.h"
 
+
+/// root class for BYPaddle and BYBall
 class BYGameObject : public cocos2d::CCObject {
+    
+protected:
+    
     cocos2d::CCSprite* _bodySprite;
-    /// boxBody
+    b2Body*            _bodyBox;    // strong ref
+//    cocos2d::CCRect    _frame;
+    
+    /// creates b2body etc
+    virtual void initPhysics();
     
 public:
+    
     BYGameObject();
     virtual ~BYGameObject(void);
-    bool init(cocos2d::CCString* spriteFileName);
     
+    /// creates _bodySprite, calls initPhysics
+    bool    init(cocos2d::CCString* spriteFileName);
+    
+    /// simple routine, get CCRect _frame instead?
+    bool containsPoint(cocos2d::CCPoint& pnt);
+    
+    /// getters
     cocos2d::CCSprite* getSprite(void);
+    b2Body*            getWorldBody();
+    
+    /// will set sprite / body at that point
     void setCenterAtPosition(const cocos2d::CCPoint& point);
 };
+
+
+inline b2Body* BYGameObject::getWorldBody()
+{
+    return _bodyBox;
+}
+
 
 #endif /* defined(__TouchHockey__BYGameObject__) */

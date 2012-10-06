@@ -7,6 +7,8 @@
 //
 
 #include "BYGameObject.h"
+#include "ConstantsAndMacros.h"
+#include "BYBoxWorld.h"
 
 using namespace cocos2d;
 
@@ -25,14 +27,32 @@ bool BYGameObject::init(cocos2d::CCString* spriteFileName) {
     _bodySprite = CCSprite::createWithSpriteFrameName(spriteFileName->getCString());
     _bodySprite->retain();
     _bodySprite->setAnchorPoint(CCPointMake(0, 0));
+    CCAssert(_bodySprite, "Cant init gameObject bodySprite");
+    
+    initPhysics();
     
     return true;
 }
 
 
-void BYGameObject::setCenterAtPosition(const cocos2d::CCPoint& cPoint) {
+void BYGameObject::initPhysics() {
+    CCAssert(0x00, "Subclass should overwrite this method");
+}
+
+
+bool BYGameObject::containsPoint(CCPoint& pnt) {
+    const CCPoint& origin  = _bodySprite->getPosition();
+    const CCSize&  size    = _bodySprite->getContentSize();
+    CCRect thisRect = CCRectMake(origin.x,
+                                 origin.y,
+                                 size.width,
+                                 size.height);
     
-    /// move box2d
+    return thisRect.containsPoint(pnt);
+}
+
+
+void BYGameObject::setCenterAtPosition(const cocos2d::CCPoint& cPoint) {
     
     /// move sprite
     float halfPaddleWidth = _bodySprite->getContentSize().width / 2;
@@ -41,25 +61,13 @@ void BYGameObject::setCenterAtPosition(const cocos2d::CCPoint& cPoint) {
                                              cPoint.y - halfPaddleWidth);
     
     _bodySprite->setPosition(paddleCenterOrigin);
+    
+    /// move box2d
+    _bodyBox->SetTransform(vecFromPoint(paddleCenterOrigin), 0);
 }
+
 
 
 cocos2d::CCSprite* BYGameObject::getSprite(void) {
     return _bodySprite;
-}
-
-bool ccTouchBegan(cocos2d::CCTouch *pTouch, cocos2d::CCEvent *pEvent) {
-    
-}
-
-void ccTouchMoved(cocos2d::CCTouch *pTouch, cocos2d::CCEvent *pEvent) {
-    
-}
-
-void ccTouchEnded(cocos2d::CCTouch *pTouch, cocos2d::CCEvent *pEvent) {
-    
-}
-
-void ccTouchCancelled(cocos2d::CCTouch *pTouch, cocos2d::CCEvent *pEvent) {
-    
 }

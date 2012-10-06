@@ -10,6 +10,7 @@
 
 #include "cocos2d.h"
 #include "BYMainMenuScene.h"
+#include "HelloWorldScene.h"
 
 USING_NS_CC;
 
@@ -39,6 +40,7 @@ bool AppDelegate::applicationDidFinishLaunching()
 
     // create a scene. it's an autorelease object
     CCScene *pScene = BYMainMenuLayer::scene();
+//    CCScene *pScene = HelloWorld::scene();
 
     // run
     pDirector->runWithScene(pScene);

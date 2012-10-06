@@ -14,9 +14,13 @@
 
 class BYPaddle : public BYGameObject {
 protected:
+    
+    virtual void initPhysics();
+    
     typedef BYGameObject super;
 
 public:
+    BYPaddle();
     virtual ~BYPaddle();
 };
 

@@ -16,6 +16,7 @@ class BYBall : public BYGameObject {
 
 protected:
     typedef BYGameObject super;
+    virtual void initPhysics();
     
 public:
     virtual ~BYBall();
