@@ -9,21 +9,19 @@
 #include "BYBall.h"
 #include "Box2D.h"
 #include "ConstantsAndMacros.h"
-#include "BYBoxWorld.h"
 
 BYBall:: ~BYBall() {
     
 }
 
-void BYBall::initPhysics() {
+void BYBall::initPhysics(b2World* openWorld) {
     b2BodyDef bodyDef;
     bodyDef.type     = b2_dynamicBody;
     bodyDef.position = vecFromPoint(_bodySprite->getPosition());
     bodyDef.userData = _bodySprite;
     bodyDef.bullet   = true;
-	bodyDef.angularDamping = 0.9f;
-
-    b2World *openWorld = BYBoxWorld::BoxWorldInstance().getWorld();
+    bodyDef.fixedRotation = true;
+    
     _bodyBox = openWorld->CreateBody(& bodyDef);
 
     b2CircleShape circleShape;
@@ -31,9 +29,14 @@ void BYBall::initPhysics() {
 
     b2FixtureDef fixtureDef;
     fixtureDef.shape    = &circleShape;
-    fixtureDef.density  = 0.8f;
-    fixtureDef.friction = 0.7f;
-    fixtureDef.restitution = 0.3f;
+    fixtureDef.density  = 1.0f;
+    fixtureDef.friction = 0.2f;
+    fixtureDef.restitution = 0.8f;
 
     _bodyBox->CreateFixture(&fixtureDef);
+}
+
+
+const b2Vec2 BYBall::getLinearVelocity() {
+    return _bodyBox->GetLinearVelocity();
 }

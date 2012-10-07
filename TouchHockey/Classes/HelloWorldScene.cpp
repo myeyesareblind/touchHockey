@@ -7,6 +7,8 @@
 //
 #include "HelloWorldScene.h"
 #include "SimpleAudioEngine.h"
+#include "BYPaddle.h"
+#include "BYBall.h"
 
 using namespace cocos2d;
 using namespace CocosDenshion;
@@ -106,7 +108,7 @@ void HelloWorld::initPhysics()
     CCSize s = CCDirector::sharedDirector()->getWinSize();
 
     b2Vec2 gravity;
-    gravity.Set(0.0f, -10.0f);
+    gravity.Set(5.0f, 10.0f);
     world = new b2World(gravity);
 
     // Do we want to let bodies sleep?
@@ -154,6 +156,31 @@ void HelloWorld::initPhysics()
     // right
     groundBox.Set(b2Vec2(s.width/PTM_RATIO,s.height/PTM_RATIO), b2Vec2(s.width/PTM_RATIO,0));
     groundBody->CreateFixture(&groundBox,0);
+    
+//    CCSpriteFrameCache *frameCache = CCSpriteFrameCache::sharedSpriteFrameCache();
+//    frameCache->addSpriteFramesWithFile("game.plist", "game.png");
+//    CCSize winSize = CCDirector::sharedDirector()->getWinSize();
+//    BYBall *_ball;
+//    BYPaddle *_topPaddle, *_botPaddle;
+//    float quarterHeight = (float) winSize.height / 4;
+////    _topPaddle = new BYPaddle();
+////    _topPaddle->init(CCString::createWithFormat("paddle_blue.png"), world);
+////    _topPaddle->setCenterAtPosition(CCPointMake(winSize.width / 2,  quarterHeight *3));
+////    this->addChild(_topPaddle->getSprite());
+////    
+////    _botPaddle = new BYPaddle();
+////    _botPaddle->init(CCString::createWithFormat("paddle_green.png"), world);
+////    _botPaddle->setCenterAtPosition(CCPointMake(winSize.width / 2, quarterHeight));
+////    this->addChild(_botPaddle->getSprite());
+//    
+//    
+//    /// add ball
+//    _ball = new BYBall();
+//    _ball->init(CCString::createWithFormat("ball_red.png"), world,
+//                CCPointMake(winSize.width /2, winSize.height / 2));
+////    _ball->setCenterAtPosition(CCPointMake(winSize.width / 2, quarterHeight * 2));
+//    this->addChild(_ball->getSprite());
+
 }
 
 void HelloWorld::draw()

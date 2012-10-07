@@ -255,7 +255,6 @@
 		25B34D78161EFF600082B8B4 /* blocks.png in Resources */ = {isa = PBXBuildFile; fileRef = 25B34D77161EFF600082B8B4 /* blocks.png */; };
 		25B5395116205D3B006B63CA /* BYBall.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 25B5394F16205D3B006B63CA /* BYBall.cpp */; };
 		25B5395516205D58006B63CA /* BYGameObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 25B5395316205D58006B63CA /* BYGameObject.cpp */; };
-		25B539601620883E006B63CA /* BYBoxWorld.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 25B5395E1620883D006B63CA /* BYBoxWorld.cpp */; };
 		25E61E401620141C002C6AC7 /* BYGameScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 25E61E3E1620141C002C6AC7 /* BYGameScene.cpp */; };
 		25E61E4416201426002C6AC7 /* BYMainMenuScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 25E61E4216201426002C6AC7 /* BYMainMenuScene.cpp */; };
 		25E61E4D16202A6C002C6AC7 /* game.plist in Resources */ = {isa = PBXBuildFile; fileRef = 25E61E4B16202A6B002C6AC7 /* game.plist */; };
@@ -801,8 +800,6 @@
 		25B5395316205D58006B63CA /* BYGameObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BYGameObject.cpp; sourceTree = "<group>"; };
 		25B5395416205D58006B63CA /* BYGameObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BYGameObject.h; sourceTree = "<group>"; };
 		25B5395A162086B6006B63CA /* ConstantsAndMacros.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ConstantsAndMacros.h; path = Classes/ConstantsAndMacros.h; sourceTree = "<group>"; };
-		25B5395E1620883D006B63CA /* BYBoxWorld.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BYBoxWorld.cpp; path = Classes/BYBoxWorld.cpp; sourceTree = "<group>"; };
-		25B5395F1620883D006B63CA /* BYBoxWorld.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BYBoxWorld.h; path = Classes/BYBoxWorld.h; sourceTree = "<group>"; };
 		25E61E3E1620141C002C6AC7 /* BYGameScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BYGameScene.cpp; path = Classes/BYGameScene.cpp; sourceTree = "<group>"; };
 		25E61E3F1620141C002C6AC7 /* BYGameScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BYGameScene.h; path = Classes/BYGameScene.h; sourceTree = "<group>"; };
 		25E61E4216201426002C6AC7 /* BYMainMenuScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BYMainMenuScene.cpp; sourceTree = "<group>"; };
@@ -1879,18 +1876,11 @@
 		25B539691620D08D006B63CA /* Game */ = {
 			isa = PBXGroup;
 			children = (
+				25D22FE61621B21A00F243D0 /* gameObjects */,
 				25E61E3F1620141C002C6AC7 /* BYGameScene.h */,
 				25E61E3E1620141C002C6AC7 /* BYGameScene.cpp */,
 				25B34D74161EFF600082B8B4 /* HelloWorldScene.h */,
 				25B34D75161EFF600082B8B4 /* HelloWorldScene.cpp */,
-				25E61E4F16202F2B002C6AC7 /* BYPaddle.cpp */,
-				25E61E5016202F2B002C6AC7 /* BYPaddle.h */,
-				25B5394F16205D3B006B63CA /* BYBall.cpp */,
-				25B5395016205D3B006B63CA /* BYBall.h */,
-				25B5395316205D58006B63CA /* BYGameObject.cpp */,
-				25B5395416205D58006B63CA /* BYGameObject.h */,
-				25B5395E1620883D006B63CA /* BYBoxWorld.cpp */,
-				25B5395F1620883D006B63CA /* BYBoxWorld.h */,
 			);
 			name = Game;
 			sourceTree = "<group>";
@@ -1904,6 +1894,19 @@
 				25E61E4316201426002C6AC7 /* BYMainMenuScene.h */,
 			);
 			name = Menu;
+			sourceTree = "<group>";
+		};
+		25D22FE61621B21A00F243D0 /* gameObjects */ = {
+			isa = PBXGroup;
+			children = (
+				25E61E4F16202F2B002C6AC7 /* BYPaddle.cpp */,
+				25E61E5016202F2B002C6AC7 /* BYPaddle.h */,
+				25B5394F16205D3B006B63CA /* BYBall.cpp */,
+				25B5395016205D3B006B63CA /* BYBall.h */,
+				25B5395316205D58006B63CA /* BYGameObject.cpp */,
+				25B5395416205D58006B63CA /* BYGameObject.h */,
+			);
+			name = gameObjects;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -2210,7 +2213,6 @@
 				25E61E5116202F2B002C6AC7 /* BYPaddle.cpp in Sources */,
 				25B5395116205D3B006B63CA /* BYBall.cpp in Sources */,
 				25B5395516205D58006B63CA /* BYGameObject.cpp in Sources */,
-				25B539601620883E006B63CA /* BYBoxWorld.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2285,7 +2287,7 @@
 				GCC_PREFIX_HEADER = TouchHockey/Prefix.pch;
 				"GCC_THUMB_SUPPORT[arch=armv6]" = "";
 				INFOPLIST_FILE = TouchHockey/Resources/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/TouchHockey/libs/cocos2dx/platform/third_party/ios/libraries\"",
@@ -2295,7 +2297,7 @@
 					"-lz",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 2;
 				USER_HEADER_SEARCH_PATHS = "\"TouchHockey/libs\"";
 				WRAPPER_EXTENSION = app;
 			};
@@ -2310,7 +2312,7 @@
 				GCC_PREFIX_HEADER = TouchHockey/Prefix.pch;
 				"GCC_THUMB_SUPPORT[arch=armv6]" = "";
 				INFOPLIST_FILE = TouchHockey/Resources/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/TouchHockey/libs/cocos2dx/platform/third_party/ios/libraries\"",
@@ -2320,7 +2322,7 @@
 					"-lz",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 2;
 				USER_HEADER_SEARCH_PATHS = "\"TouchHockey/libs\"";
 				VALIDATE_PRODUCT = YES;
 				WRAPPER_EXTENSION = app;

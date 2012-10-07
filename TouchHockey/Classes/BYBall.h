@@ -16,10 +16,11 @@ class BYBall : public BYGameObject {
 
 protected:
     typedef BYGameObject super;
-    virtual void initPhysics();
+    virtual void initPhysics(b2World* world);
     
 public:
     virtual ~BYBall();
+    virtual const b2Vec2 getLinearVelocity();
 };
 
 #endif /* defined(__TouchHockey__BYBall__) */

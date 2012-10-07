@@ -8,7 +8,6 @@
 
 #include "BYGameObject.h"
 #include "ConstantsAndMacros.h"
-#include "BYBoxWorld.h"
 
 using namespace cocos2d;
 
@@ -22,20 +21,23 @@ BYGameObject::~BYGameObject() {
 
 
 
-bool BYGameObject::init(cocos2d::CCString* spriteFileName) {
+bool BYGameObject::init(cocos2d::CCString* spriteFileName,
+                        b2World* world,
+                        const CCPoint& position) {
+    
     CCAssert(spriteFileName->length(), "Cant init paddle with null-sprite");
     _bodySprite = CCSprite::createWithSpriteFrameName(spriteFileName->getCString());
     _bodySprite->retain();
-    _bodySprite->setAnchorPoint(CCPointMake(0, 0));
+    _bodySprite->setPosition(position);
     CCAssert(_bodySprite, "Cant init gameObject bodySprite");
     
-    initPhysics();
+    initPhysics(world);
     
     return true;
 }
 
 
-void BYGameObject::initPhysics() {
+void BYGameObject::initPhysics(b2World* world) {
     CCAssert(0x00, "Subclass should overwrite this method");
 }
 
@@ -47,23 +49,16 @@ bool BYGameObject::containsPoint(CCPoint& pnt) {
                                  origin.y,
                                  size.width,
                                  size.height);
-    
-    return thisRect.containsPoint(pnt);
+    return true;
+//    return thisRect.containsPoint(pnt);
 }
 
-
-void BYGameObject::setCenterAtPosition(const cocos2d::CCPoint& cPoint) {
-    
+void BYGameObject::setPosition(const cocos2d::CCPoint& point) {
     /// move sprite
-    float halfPaddleWidth = _bodySprite->getContentSize().width / 2;
-    CCPoint paddleCenterOrigin = CCPointMake(cPoint.x -
-                                             halfPaddleWidth,
-                                             cPoint.y - halfPaddleWidth);
-    
-    _bodySprite->setPosition(paddleCenterOrigin);
+    _bodySprite->setPosition(point);
     
     /// move box2d
-    _bodyBox->SetTransform(vecFromPoint(paddleCenterOrigin), 0);
+    _bodyBox->SetTransform(vecFromPoint(point), 0);
 }
 
 

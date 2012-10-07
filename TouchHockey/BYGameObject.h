@@ -24,7 +24,7 @@ protected:
 //    cocos2d::CCRect    _frame;
     
     /// creates b2body etc
-    virtual void initPhysics();
+    virtual void initPhysics(b2World *world);
     
 public:
     
@@ -32,7 +32,9 @@ public:
     virtual ~BYGameObject(void);
     
     /// creates _bodySprite, calls initPhysics
-    bool    init(cocos2d::CCString* spriteFileName);
+    bool    init(cocos2d::CCString* spriteFileName,
+                 b2World *world,
+                 const cocos2d::CCPoint& position);
     
     /// simple routine, get CCRect _frame instead?
     bool containsPoint(cocos2d::CCPoint& pnt);
@@ -42,7 +44,10 @@ public:
     b2Body*            getWorldBody();
     
     /// will set sprite / body at that point
-    void setCenterAtPosition(const cocos2d::CCPoint& point);
+    void setPosition(const cocos2d::CCPoint& point);
+    
+    /// return a copy, as does box2d
+    virtual const b2Vec2 getLinearVelocity() = 0;
 };
 
 
