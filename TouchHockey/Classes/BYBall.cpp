@@ -31,7 +31,7 @@ void BYBall::initPhysics(b2World* openWorld) {
     fixtureDef.shape    = &circleShape;
     fixtureDef.density  = 1.0f;
     fixtureDef.friction = 0.2f;
-    fixtureDef.restitution = 0.8f;
+    fixtureDef.restitution = 1.0f;
 
     _bodyBox->CreateFixture(&fixtureDef);
 }

@@ -18,23 +18,29 @@
 
 class BYGameScene : public cocos2d::CCLayer, public b2ContactListener {
 private:
-    b2World  *_world;
-    
-    /// weak-references, owner - this->child array
-    BYPaddle *_topPaddle;
-    BYPaddle *_botPaddle;
-    BYBall   *_ball;
-    
     
     typedef CCLayer super;
-    
-    void loadBoxWorld();
     
     /// graphics background, used for world loading
     const cocos2d::CCPoint boardCornerPoint();
     const float            boardShortStickLength();
     
+    
+    /// GUI:
+    void pauseButtonHandler(cocos2d::CCMenuItem* menuItem);
+    void loadUI();
+    cocos2d::CCLabelTTF *_labelTopPlayerGoalsScored; /// weak ref
+    cocos2d::CCLabelTTF *_labelBotPlayerGoalsScored; /// weak ref
+    
+    /// GameLogic
     void delegateTouchesToPaddles(cocos2d::CCSet* tSet);
+    void loadBoxWorld();
+    b2World  *_world; /// strong ref, deleted in ~BYGameScene()
+    
+    /// weak-references, owner - this->child array
+    BYPaddle *_topPaddle;
+    BYPaddle *_botPaddle;
+    BYBall   *_ball;
     
 public:
     static cocos2d::CCScene* scene();

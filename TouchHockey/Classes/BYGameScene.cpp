@@ -50,13 +50,14 @@ BYGameScene::BYGameScene() {
     background->cocos2d::CCNode::setPosition(winSize.width /2, winSize.height / 2);
 #pragma mark - TODO: fix fps drop
     this->addChild(background);
+    this->loadUI();
     
     this->loadBoxWorld();
     
     /// add players
     float quarterHeight = (float) winSize.height / 4;
     _topPaddle = new BYPaddle();
-    _topPaddle->init(CCString::createWithFormat("paddle_blue.png"),
+    _topPaddle->init(CCString::createWithFormat("paddle_yellow.png"),
                      _world,
                      CCPointMake(winSize.width / 2,  quarterHeight *3));
     this->addChild(_topPaddle->getSprite());
@@ -70,7 +71,7 @@ BYGameScene::BYGameScene() {
     
     /// add ball
     _ball = new BYBall();
-    _ball->init(CCString::createWithFormat("ball_red.png"),
+    _ball->init(CCString::createWithFormat("ball_blue.png"),
                 _world,
                 CCPointMake(winSize.width / 2, quarterHeight * 2));
     this->addChild(_ball->getSprite());
@@ -165,6 +166,50 @@ void BYGameScene::loadBoxWorld() {
                   vecFromPoint(CCPointMake(topRightPoint.x - boardShortStickLenght, topRightPoint.y)));
     groundBody->CreateFixture(&groundBox, 0);
 }
+
+
+
+void BYGameScene::loadUI() {
+    
+    CCSpriteFrameCache *frameCache = CCSpriteFrameCache::sharedSpriteFrameCache();
+    frameCache->addSpriteFramesWithFile("ui.plist", "ui.png");
+    
+    CCSize winSize    = CCDirector::sharedDirector()->getWinSize();    
+    
+    /// pause button
+    CCSprite* btnNormalSprite = CCSprite::createWithSpriteFrameName("pause.png");
+    CCMenuItemSprite *pauseMenuItem = CCMenuItemSprite::create(btnNormalSprite,
+                                                               btnNormalSprite,
+                                                               this,
+                                                               menu_selector(BYGameScene::pauseButtonHandler));
+    
+    /// 2 labels for goals
+    ccColor3B color = ccc3(220, 70, 20); /// red color
+    _labelBotPlayerGoalsScored = CCLabelTTF::create("0", "Marker Felt", 40);
+    _labelBotPlayerGoalsScored->setColor(color);
+    CCMenuItemLabel *labelBot = CCMenuItemLabel::create(_labelBotPlayerGoalsScored, NULL, NULL);
+    labelBot->setEnabled(false);
+    
+    _labelTopPlayerGoalsScored = CCLabelTTF::create("0", "Marker Felt", 40);
+    _labelTopPlayerGoalsScored->setColor(color);
+    CCMenuItemLabel *labelTop = CCMenuItemLabel::create(_labelTopPlayerGoalsScored, NULL, NULL);
+    labelTop->setEnabled(false);
+    
+    /// CCMenu doesnt support anchorPoint as of 0x00020003 version
+    CCMenu *menu = CCMenu::create(labelTop, pauseMenuItem, labelBot, NULL);
+    menu->alignItemsHorizontallyWithPadding(5);
+    menu->setAnchorPoint(CCPointMake(0, 0));
+    menu->setPosition(CCPointMake(winSize.width - pauseMenuItem->getContentSize().width / 2,
+                                  winSize.height / 2));
+    menu->setRotation(90);
+    this->addChild(menu);
+}
+
+
+void BYGameScene::pauseButtonHandler(CCMenuItem* pauseItem) {
+    CCLog("game paused");
+}
+
 
 
 BYGameScene::~BYGameScene() {

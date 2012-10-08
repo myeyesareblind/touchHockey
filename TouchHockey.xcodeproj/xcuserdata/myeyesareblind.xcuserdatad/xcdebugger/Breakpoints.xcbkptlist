@@ -158,11 +158,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "TouchHockey/Classes/BYGameScene.cpp"
-         timestampString = "371343946.362497"
+         timestampString = "371399032.462879"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "288"
-         endingLineNumber = "288"
+         startingLineNumber = "332"
+         endingLineNumber = "332"
          landmarkName = "BYGameScene::BeginContact(b2Contact* contact)"
          landmarkType = "5">
       </FileBreakpoint>
@@ -171,11 +171,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "TouchHockey/Classes/BYGameScene.cpp"
-         timestampString = "371343946.362497"
+         timestampString = "371399032.462879"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "283"
-         endingLineNumber = "283"
+         startingLineNumber = "327"
+         endingLineNumber = "327"
          landmarkName = "BYGameScene::BeginContact(b2Contact* contact)"
          landmarkType = "5">
       </FileBreakpoint>
@@ -249,11 +249,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "TouchHockey/Classes/BYGameScene.cpp"
-         timestampString = "371334071.369834"
+         timestampString = "371399032.462879"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "224"
-         endingLineNumber = "224"
+         startingLineNumber = "268"
+         endingLineNumber = "268"
          landmarkName = "BYGameScene::delegateTouchesToPaddles(CCSet* pTouches)"
          landmarkType = "5">
       </FileBreakpoint>
@@ -262,11 +262,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "TouchHockey/Classes/BYGameScene.cpp"
-         timestampString = "371334071.369834"
+         timestampString = "371399032.462879"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "231"
-         endingLineNumber = "231"
+         startingLineNumber = "275"
+         endingLineNumber = "275"
          landmarkName = "BYGameScene::delegateTouchesToPaddles(CCSet* pTouches)"
          landmarkType = "5">
       </FileBreakpoint>
@@ -295,6 +295,30 @@
          endingLineNumber = "87"
          landmarkName = "BYPaddle::handleTouchAtPoint(const CCPoint&amp; pnt)"
          landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "TouchHockey/Classes/BYGameScene.cpp"
+         timestampString = "371399032.462879"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "209"
+         endingLineNumber = "209"
+         landmarkName = "BYGameScene::pauseButtonHandler(CCMenuItem* pauseItem)"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "TouchHockey/Classes/BYGameScene.cpp"
+         timestampString = "371399032.462879"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "208"
+         endingLineNumber = "208">
       </FileBreakpoint>
    </FileBreakpoints>
 </Bucket>

@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		25AA383F162319580058CBC8 /* ui.plist in Resources */ = {isa = PBXBuildFile; fileRef = 25AA383D162319550058CBC8 /* ui.plist */; };
+		25AA3840162319580058CBC8 /* ui.png in Resources */ = {isa = PBXBuildFile; fileRef = 25AA383E162319560058CBC8 /* ui.png */; };
 		25B34A34161EFF5B0082B8B4 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 25B34A33161EFF5B0082B8B4 /* QuartzCore.framework */; };
 		25B34A36161EFF5B0082B8B4 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 25B34A35161EFF5B0082B8B4 /* OpenGLES.framework */; };
 		25B34A38161EFF5B0082B8B4 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 25B34A37161EFF5B0082B8B4 /* OpenAL.framework */; };
@@ -263,6 +265,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		25AA383D162319550058CBC8 /* ui.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = ui.plist; path = Resources/ui.plist; sourceTree = "<group>"; };
+		25AA383E162319560058CBC8 /* ui.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ui.png; path = Resources/ui.png; sourceTree = "<group>"; };
 		25B34A2F161EFF5B0082B8B4 /* TouchHockey.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TouchHockey.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		25B34A33161EFF5B0082B8B4 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		25B34A35161EFF5B0082B8B4 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
@@ -877,6 +881,8 @@
 		25B34A44161EFF5B0082B8B4 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				25AA383D162319550058CBC8 /* ui.plist */,
+				25AA383E162319560058CBC8 /* ui.png */,
 				25E61E4B16202A6B002C6AC7 /* game.plist */,
 				25E61E4C16202A6B002C6AC7 /* game.png */,
 				25B34A45161EFF5B0082B8B4 /* CloseNormal.png */,
@@ -1974,6 +1980,8 @@
 				25B34D78161EFF600082B8B4 /* blocks.png in Resources */,
 				25E61E4D16202A6C002C6AC7 /* game.plist in Resources */,
 				25E61E4E16202A6C002C6AC7 /* game.png in Resources */,
+				25AA383F162319580058CBC8 /* ui.plist in Resources */,
+				25AA3840162319580058CBC8 /* ui.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
