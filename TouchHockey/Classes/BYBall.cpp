@@ -40,3 +40,8 @@ void BYBall::initPhysics(b2World* openWorld) {
 const b2Vec2 BYBall::getLinearVelocity() {
     return _bodyBox->GetLinearVelocity();
 }
+
+
+void BYBall::resetForces() {
+    _bodyBox->SetLinearVelocity(b2Vec2_zero);
+}

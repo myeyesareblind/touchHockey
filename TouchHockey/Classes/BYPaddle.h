@@ -45,6 +45,9 @@ public:
     
     /// rect will be trimmed to count radius
     void setMoveArea(const cocos2d::CCRect& rect);
+    
+    /// override since mouseJoint here
+    virtual void setPosition(const cocos2d::CCPoint& point);
 };
 
 #endif /* defined(__TouchHockey__BYPaddle__) */

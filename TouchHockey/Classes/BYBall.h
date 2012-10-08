@@ -21,6 +21,7 @@ protected:
 public:
     virtual ~BYBall();
     virtual const b2Vec2 getLinearVelocity();
+    void    resetForces();
 };
 
 #endif /* defined(__TouchHockey__BYBall__) */

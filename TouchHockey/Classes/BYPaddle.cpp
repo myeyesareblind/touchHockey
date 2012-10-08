@@ -102,3 +102,15 @@ void BYPaddle::jumpToPoint(const CCPoint& jumpPoint) {
     
     _mouseJoint->SetTarget(vecFromPoint(jumpPoint));
 }
+
+
+void BYPaddle::setPosition(const cocos2d::CCPoint& point) {
+    super::setPosition(point);
+    
+    /// set position, then jump
+    _bodyBox->SetTransform(vecFromPoint(point), 0);
+    this->jumpToPoint(point);
+}
+
+
+

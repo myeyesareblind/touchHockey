@@ -44,7 +44,7 @@ public:
     b2Body*            getWorldBody();
     
     /// will set sprite / body at that point
-    void setPosition(const cocos2d::CCPoint& point);
+    virtual void setPosition(const cocos2d::CCPoint& point);
     
     /// return a copy, as does box2d
     virtual const b2Vec2 getLinearVelocity() = 0;
