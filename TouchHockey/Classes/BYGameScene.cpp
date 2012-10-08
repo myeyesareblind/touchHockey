@@ -39,6 +39,7 @@ CCScene* BYGameScene::scene() {
 BYGameScene::BYGameScene() {
     
     this->setTouchEnabled(true);
+    
     CCSize winSize = CCDirector::sharedDirector()->getWinSize();
     
     /// get Atlas
@@ -91,6 +92,8 @@ BYGameScene::BYGameScene() {
                                 _playArea.size.width,
                                 _playArea.size.height / 2);
     _topPaddle->setMoveArea(topRect);
+    
+    this->resetScore();
     
     this->scheduleUpdate();
 }
@@ -259,7 +262,6 @@ void BYGameScene::continueGame() {
 void BYGameScene::ccTouchesBegan(cocos2d::CCSet *pTouches,
                                  cocos2d::CCEvent *pEvent) {
     
-#warning TODO: check pause button
     this->delegateTouchesToPaddles(pTouches);
 }
 
