@@ -26,7 +26,11 @@ private:
     } BYGamePlayer;
     
     typedef enum {
-        GUI_PauseMenu
+        GUI_Incorrect,
+        GUI_PauseMenu,
+        GUI_PauseMenu_Continue,
+        GUI_GameFinishMenu,
+        GUI_GoalLabel /// vicroty use this too
     } BYGUIElements;
     
     typedef CCLayer super;
@@ -43,8 +47,15 @@ private:
     void pauseButtonHandler(cocos2d::CCMenuItem* menuItem); /// will show PauseMenu
     /// has 2 buttons: restart / quit. Restart: this->restartGame().
     cocos2d::CCMenu*    createPauseMenu(); /// creates autorelease object
+    /// has 2 btns: re / quit, modifies menu from createPauseMenu
+    void presentGameFinishMenu();
     void quitGame();
+    void pauseGame();
     void continueGame();
+    void finishGame();  /// called from CCSequence in playerDidScore, not to be called mannualy
+    cocos2d::CCLabelTTF*            createGoalLabelForPlayer(BYGamePlayer player);
+    cocos2d::CCFiniteTimeAction*    createGoalLabelSpawn(); /// goal and victory animations
+    
     
     /// GameLogic
     void resetGame(); /// calls resetScore(), resetWorldObjects()
@@ -65,6 +76,7 @@ private:
     cocos2d::CCRect _playArea;
     /// will increase _playerScore, restart game, show victory if needed
     void checkIfBallScored(const cocos2d::CCPoint& ballPosition);
+    void playerDidScore(BYGamePlayer player);
     
     /// score handle
     /// dont see any reason to create spec class
@@ -72,8 +84,6 @@ private:
     int _topPlayerScore;
     int _botPlayerScore;
     
-    void showVictoryForPlayer(BYGamePlayer player);
-    void showGoalForPlayer(BYGamePlayer player);
 public:
     static cocos2d::CCScene* scene();
     BYGameScene();

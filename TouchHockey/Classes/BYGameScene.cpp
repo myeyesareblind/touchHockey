@@ -14,6 +14,12 @@
 using namespace cocos2d;
 
 
+const float BYGoalLabelAnimetionInterval = 1.5f;
+const float BYGoalLabelFreezeAnimationInterval = 1.0f;
+const float BYGoalLabelScaleBy           = 5;
+const float BYGoalLabelRotatesCount      = 2;
+
+
 const CCPoint BYGameScene::boardCornerPoint() {
     return CCPointMake(70, 24);
 }
@@ -124,40 +130,148 @@ void BYGameScene::resetScore() {
 }
 
 
+void BYGameScene::finishGame() {
+    
+    this->removeChildByTag(GUI_GoalLabel, true);
+    /// whos winner?
+    /// a bit tricky. I dont own the winner
+    BYGamePlayer gameWinner = _topPlayerScore > _botPlayerScore ? BYGamePlayer_topPlayer : BYGamePlayer_botPlayer;
+    
+    /// show victory label + animation
+    CCLabelTTF *labelVictory = this->createGoalLabelForPlayer(gameWinner);
+    labelVictory->setString("Victory!");
+    this->addChild(labelVictory);
+    CCCallFunc *presentFinishMenu = CCCallFunc::create(this,
+                                               callfunc_selector(BYGameScene::presentGameFinishMenu));
+    CCFiniteTimeAction *action = CCSequence::create(this->createGoalLabelSpawn(),
+                                                    presentFinishMenu,
+                                                    NULL
+                                                    );
+    labelVictory->runAction(action);
+}
+
+
 void BYGameScene::checkIfBallScored(const CCPoint& ballPoint) {
     if (! _playArea.containsPoint(ballPoint) ) {
         
-        int             *playerGoals;
         BYGamePlayer    playerScored = BYGamePlayer_incorrect;
-        CCLabelTTF*     label        = NULL;
         
           
         if (_playArea.origin.y > ballPoint.y) {
             playerScored = BYGamePlayer_topPlayer;
-            playerGoals  = & _topPlayerScore;
-            label        = _labelTopPlayerGoalsScored;
         } else {
             playerScored = BYGamePlayer_botPlayer;
-            playerGoals  = & _botPlayerScore;
-            label        = _labelBotPlayerGoalsScored;
         }
-        
-        (*playerGoals) ++;
-        CCString* str = CCString::createWithFormat("%d", *playerGoals);
-        
-        label->setString( str->getCString());
-        
-        this->showGoalForPlayer(playerScored);
-        
-        if (*playerGoals == BYGoalsPerGame) {
-            this->showVictoryForPlayer(playerScored);
-        }
-        
-        this->resetGameObjects();
+        this->playerDidScore(playerScored);
     }
 }
 
 
+void BYGameScene::playerDidScore(BYGamePlayer player) {
+    CCAssert(player, "Incorrect player scored");
+    
+    this->pauseGame();
+    
+    int             *playerGoals;
+    CCLabelTTF      *scoreLabel        = NULL;
+    
+    
+    CCSize winSize = CCDirector::sharedDirector()->getWinSize();
+    if (player == BYGamePlayer_topPlayer) {
+        playerGoals = & _topPlayerScore;
+        scoreLabel  = _labelTopPlayerGoalsScored;
+    } else {
+        playerGoals  = & _botPlayerScore;
+        scoreLabel        = _labelBotPlayerGoalsScored;
+    }
+    
+    /// update score label
+    (*playerGoals) ++;
+    CCString* str = CCString::createWithFormat("%d", *playerGoals);
+    scoreLabel->setString( str->getCString());
+    
+    /// show goal animations: scale, rotate, fadein
+    CCLabelTTF *labelGoal = this->createGoalLabelForPlayer(player);
+    labelGoal->setString("Goal!");
+    this->addChild(labelGoal);
+    
+    CCFiniteTimeAction *action;
+    if (*playerGoals == BYGoalsPerGame) {
+        
+        /// On animation finish I show nextAnimation on new label
+        /// that animation triggers finish game menu pop-up
+        CCCallFunc *finishGameFunc = CCCallFunc::create(this,
+                                                        callfunc_selector(BYGameScene::finishGame));
+        action = CCSequence::create(this->createGoalLabelSpawn(),
+                                    finishGameFunc,
+                                    NULL);
+    } else {
+        
+        CCCallFunc *resetFunc = CCCallFunc::create(this,
+                                                   callfunc_selector(BYGameScene::resetGameObjects));
+        CCCallFunc *contFunc  = CCCallFunc::create(this,
+                                                   callfunc_selector(BYGameScene::continueGame));
+        
+        action =  CCSequence::create(this->createGoalLabelSpawn(),
+                                     resetFunc,
+                                     contFunc,
+                                     NULL);
+
+    }
+    labelGoal->runAction(action);
+}
+
+
+void BYGameScene::presentGameFinishMenu() {
+    this->removeChildByTag(GUI_GoalLabel, true);
+    
+    CCMenu *menu = this->createPauseMenu();
+    menu->removeChildByTag(GUI_PauseMenu_Continue, true);
+    
+    this->addChild(menu);
+}
+
+
+CCLabelTTF* BYGameScene::createGoalLabelForPlayer(BYGamePlayer player) {
+    CCPoint         pos;
+    float           rotation           = 0;
+    
+    CCSize winSize = CCDirector::sharedDirector()->getWinSize();
+    pos.x = winSize.width / 2;
+    if (player == BYGamePlayer_topPlayer) {
+        pos.y = winSize.height * 3.0f / 4;
+        rotation    = 180;
+    } else {
+        pos.y  = winSize.height / 4;
+    }
+    
+    
+    CCLabelTTF* lbl = CCLabelTTF::create("",
+                                         "Marker Felt",
+                                         40);
+    lbl->setOpacity(0);
+    lbl->setScale(BYGoalLabelScaleBy);
+    lbl->setTag(GUI_GoalLabel);
+    lbl->setPosition(pos);
+    lbl->setRotation(rotation);
+    
+    return lbl;
+}
+
+
+CCFiniteTimeAction* BYGameScene::createGoalLabelSpawn() {
+    
+    CCFadeIn *fadeIn = CCFadeIn::create(255);
+    fadeIn->setDuration(BYGoalLabelAnimetionInterval);
+    
+    CCRotateBy *rotBY = CCRotateBy::create(BYGoalLabelFreezeAnimationInterval,
+                                           360 * BYGoalLabelRotatesCount);
+    
+    CCScaleBy *scaleBy = CCScaleBy::create(BYGoalLabelFreezeAnimationInterval,
+                                           1 / BYGoalLabelScaleBy);
+    
+    return CCSpawn::create(fadeIn, rotBY, scaleBy, NULL);
+}
 
 
 #pragma mark - GUI methods
@@ -199,32 +313,20 @@ void BYGameScene::loadUI() {
 }
 
 
-void BYGameScene::showVictoryForPlayer(BYGamePlayer player) {
-    
-}
-
-
-void BYGameScene::showGoalForPlayer(BYGamePlayer player) {
-    
-}
-
-
 void BYGameScene::pauseButtonHandler(CCMenuItem* pauseItem) {
     CCLog("game paused");
     CCMenu* pauseMenu = this->createPauseMenu();
     this->addChild(pauseMenu);
     
-    /// disable touches
-    this->setTouchEnabled(false);
-    /// stop update
-    this->unscheduleUpdate();
+    this->pauseGame();
 }
 
 
-cocos2d::CCMenu*  BYGameScene:: createPauseMenu() { /// creates autorelease object
+cocos2d::CCMenu*  BYGameScene::createPauseMenu() { /// creates autorelease object
     CCMenuItemFont* continueItem = CCMenuItemFont::create("Continue",
                                                           this,
                                                           menu_selector(BYGameScene::continueGame));
+    continueItem->setTag(GUI_PauseMenu_Continue);
     
     CCMenuItemFont* reItem = CCMenuItemFont::create("Restart",
                                                     this,
@@ -249,11 +351,19 @@ void BYGameScene::quitGame() {
     CCDirector::sharedDirector()->popScene();
 }
 
+void BYGameScene::pauseGame() {
+    this->unscheduleUpdate();
+    this->setTouchEnabled(false);
+}
+
 
 void BYGameScene::continueGame() {
+    
     this->scheduleUpdate();
     this->setTouchEnabled(true);
+    
     this->removeChildByTag(GUI_PauseMenu, true);
+    this->removeChildByTag(GUI_GoalLabel, true);
 }
 
 
@@ -323,6 +433,7 @@ void BYGameScene::delegateTouchesToPaddles(CCSet* pTouches) {
 #pragma mark - Box2D handle
 
 void BYGameScene::loadBoxWorld() {
+#warning TODO: check if bodys should be release
     b2Vec2 gravity = b2Vec2(0, 0);
     _world = new b2World(gravity);
     _world->SetAllowSleeping(false);

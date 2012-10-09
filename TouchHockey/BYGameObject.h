@@ -21,6 +21,7 @@ protected:
     
     cocos2d::CCSprite* _bodySprite;
     b2Body*            _bodyBox;    // strong ref
+    b2World*           _world;      // weak ref
 //    cocos2d::CCRect    _frame;
     
     /// creates b2body etc

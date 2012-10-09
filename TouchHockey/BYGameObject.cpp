@@ -17,6 +17,14 @@ BYGameObject::BYGameObject() {
 
 BYGameObject::~BYGameObject() {
     _bodySprite->release();
+    
+//    /// not sure if I should do these
+//    /// does b2world destroys everything when it is deleted?
+//    
+//    b2Fixture *fixture = _bodyBox->GetFixtureList();
+//    /// only 1 fixture exists for this body
+//    _bodyBox->DestroyFixture(fixture);
+//    _world->DestroyBody(_bodyBox);
 }
 
 

@@ -20,7 +20,6 @@ private:
     cocos2d::CCPoint _minPositionPoint;
 /// weak pointers, created in BYGameScene
     b2Body          *_groundBody;
-    b2World         *_world;
     
 /// for moving body
     b2MouseJoint    *_mouseJoint;
