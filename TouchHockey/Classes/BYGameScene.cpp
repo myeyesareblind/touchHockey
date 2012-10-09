@@ -14,8 +14,8 @@
 using namespace cocos2d;
 
 
-const float BYGoalLabelAnimetionInterval = 1.5f;
-const float BYGoalLabelFreezeAnimationInterval = 1.0f;
+const float BYGoalLabelAnimetionInterval = 1.0f;
+const float BYGoalLabelFreezeAnimationInterval = 0.5f;
 const float BYGoalLabelScaleBy           = 5;
 const float BYGoalLabelRotatesCount      = 2;
 
@@ -152,11 +152,12 @@ void BYGameScene::finishGame() {
 
 
 void BYGameScene::checkIfBallScored(const CCPoint& ballPoint) {
-    if (! _playArea.containsPoint(ballPoint) ) {
+    static float height = CCDirector::sharedDirector()->getWinSize().height;
+    
+    if (ballPoint.y < 0 || ballPoint.y > height ) {
         
         BYGamePlayer    playerScored = BYGamePlayer_incorrect;
         
-          
         if (_playArea.origin.y > ballPoint.y) {
             playerScored = BYGamePlayer_topPlayer;
         } else {
