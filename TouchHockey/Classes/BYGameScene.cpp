@@ -25,11 +25,6 @@ const CCPoint BYGameScene::boardCornerPoint() {
 }
 
 
-const float BYGameScene::boardShortStickLength() {
-    return 184;
-}
-
-
 CCScene* BYGameScene::scene() {
     CCScene *scene = CCScene::create();
     
@@ -43,10 +38,7 @@ CCScene* BYGameScene::scene() {
 
 
 BYGameScene::BYGameScene() {
-    
-    this->setTouchEnabled(true);
-    
-    CCSize winSize = CCDirector::sharedDirector()->getWinSize();
+    CCSize    winSize = CCDirectorManager->getWinSize();
     
     /// get Atlas
     CCSpriteFrameCache *frameCache = CCSpriteFrameCache::sharedSpriteFrameCache();
@@ -55,62 +47,25 @@ BYGameScene::BYGameScene() {
     /// add background sprite
     CCSprite *background = CCSprite::createWithSpriteFrameName("background.png");
     background->cocos2d::CCNode::setPosition(winSize.width /2, winSize.height / 2);
-#pragma mark - TODO: fix fps drop
     this->addChild(background);
+    this->setContentSize(background->getContentSize());
+    
+    m_gameLayer = new BYGameLayer();
+    
+    m_gameLayer->initWithMultiPlayer();
+    m_gameLayer->setScene(this);
+
+    this->addChild(m_gameLayer);
+    m_gameLayer->autorelease();
+    
     this->loadUI();
     
-    this->loadBoxWorld();
-    
-    /// add players
-    float quarterHeight = (float) winSize.height / 4;
-    _topPaddle = new BYPaddle();
-    _topPaddle->init(CCString::createWithFormat("paddle_yellow.png"),
-                     _world,
-                     CCPointMake(winSize.width / 2,  quarterHeight *3));
-    this->addChild(_topPaddle->getSprite());
-    
-    _botPaddle = new BYPaddle();
-    _botPaddle->init(CCString::createWithFormat("paddle_green.png"),
-                     _world,
-                     CCPointMake(winSize.width / 2, quarterHeight / 2));
-    this->addChild(_botPaddle->getSprite());
-
-    
-    /// add ball
-    _ball = new BYBall();
-    _ball->init(CCString::createWithFormat("ball_blue.png"),
-                _world,
-                CCPointMake(winSize.width / 2, quarterHeight * 2));
-    this->addChild(_ball->getSprite());
-    
-    CCPoint contPoint = boardCornerPoint();
-    
-    _playArea = CCRectMake(contPoint.x,
-                           contPoint.y,
-                           winSize.width  - 2 * contPoint.x,
-                           winSize.height - 2 * contPoint.y);
-    CCRect botRect(_playArea);
-    botRect.size.height /= 2;
-    _botPaddle->setMoveArea(botRect);
-    
-    CCRect topRect = CCRectMake(contPoint.x,
-                                contPoint.y + _playArea.size.height / 2,
-                                _playArea.size.width,
-                                _playArea.size.height / 2);
-    _topPaddle->setMoveArea(topRect);
-    
     this->resetScore();
-    
-    this->scheduleUpdate();
 }
 
 
 
 BYGameScene::~BYGameScene() {
-    delete _world;
-    _topPaddle->release();
-    _botPaddle->release();
-    _ball->release();
 }
 
 
@@ -118,7 +73,8 @@ BYGameScene::~BYGameScene() {
 
 void BYGameScene::resetGame() {
     
-    this->resetGameObjects();
+    m_gameLayer->resetGameObjects();
+    
     this->resetScore();
     
     this->continueGame();
@@ -127,6 +83,10 @@ void BYGameScene::resetGame() {
 
 void BYGameScene::resetScore() {
     _topPlayerScore = _botPlayerScore = 0;
+    
+    CCString* str = CCString::createWithFormat("%d", 0);
+    _labelBotPlayerGoalsScored->setString(str->getCString());
+    _labelTopPlayerGoalsScored->setString(str->getCString());    
 }
 
 
@@ -148,23 +108,6 @@ void BYGameScene::finishGame() {
                                                     NULL
                                                     );
     labelVictory->runAction(action);
-}
-
-
-void BYGameScene::checkIfBallScored(const CCPoint& ballPoint) {
-    static float height = CCDirector::sharedDirector()->getWinSize().height;
-    
-    if (ballPoint.y < 0 || ballPoint.y > height ) {
-        
-        BYGamePlayer    playerScored = BYGamePlayer_incorrect;
-        
-        if (_playArea.origin.y > ballPoint.y) {
-            playerScored = BYGamePlayer_topPlayer;
-        } else {
-            playerScored = BYGamePlayer_botPlayer;
-        }
-        this->playerDidScore(playerScored);
-    }
 }
 
 
@@ -208,8 +151,8 @@ void BYGameScene::playerDidScore(BYGamePlayer player) {
                                     NULL);
     } else {
         
-        CCCallFunc *resetFunc = CCCallFunc::create(this,
-                                                   callfunc_selector(BYGameScene::resetGameObjects));
+        CCCallFunc *resetFunc = CCCallFunc::create(m_gameLayer,
+                                                   callfunc_selector(BYGameLayer::resetGameObjects));
         CCCallFunc *contFunc  = CCCallFunc::create(this,
                                                    callfunc_selector(BYGameScene::continueGame));
         
@@ -352,226 +295,42 @@ void BYGameScene::quitGame() {
     CCDirector::sharedDirector()->popScene();
 }
 
+
 void BYGameScene::pauseGame() {
-    this->unscheduleUpdate();
-    this->setTouchEnabled(false);
+    
+    m_gameLayer->pauseWorld();
+    
 }
 
 
 void BYGameScene::continueGame() {
     
-    this->scheduleUpdate();
-    this->setTouchEnabled(true);
+    m_gameLayer->resumeWorld();
     
     this->removeChildByTag(GUI_PauseMenu, true);
     this->removeChildByTag(GUI_GoalLabel, true);
 }
 
 
-#pragma mark - touch handle
-
-void BYGameScene::ccTouchesBegan(cocos2d::CCSet *pTouches,
-                                 cocos2d::CCEvent *pEvent) {
-    
-    this->delegateTouchesToPaddles(pTouches);
-}
-
-
-void BYGameScene::ccTouchesMoved(cocos2d::CCSet *pTouches, cocos2d::CCEvent *pEvent) {
-    this->delegateTouchesToPaddles(pTouches);
-}
-
-
-void BYGameScene::ccTouchesEnded(cocos2d::CCSet *pTouches, cocos2d::CCEvent *pEvent) {
-    /// empty
-}
-
-
-void BYGameScene::ccTouchesCancelled(cocos2d::CCSet *pTouches, cocos2d::CCEvent *pEvent) {
-    /// empty
-}
-
-
-void BYGameScene::delegateTouchesToPaddles(CCSet* pTouches) {
-    /*
-     For single touch event process only single touch for each paddle.
-     Any paddle can receive only 1 touch
-     */
-    
-    bool passedToTopPaddle = false;
-    bool passedToBotPaddle = false;
-    static float halfY = CCDirector::sharedDirector()->getWinSize().height / 2;
-    
-    CCSetIterator iterator;
-    for(iterator = pTouches->begin();
-        iterator != pTouches->end();
-        iterator++)
-    {
-        CCTouch* touch = (CCTouch*)(*iterator);
-        CCPoint touchPoint = touch->getLocation();
-        
-        CCPoint previousPoint = touch->getPreviousLocation();
-        
-        if (touchPoint.y > halfY) {
-            if (! passedToTopPaddle) {
-                _topPaddle->handleTouchAtPoint(touchPoint);
-                passedToBotPaddle = true;
-            }
-        }
-        
-        else {
-            if (! passedToBotPaddle) {
-                _botPaddle->handleTouchAtPoint(touchPoint);
-                passedToBotPaddle = true;
-            }
-            
-        } /// else
-    } /// iterator
-}
-
-
-
-#pragma mark - Box2D handle
-
-void BYGameScene::loadBoxWorld() {
-#warning TODO: check if bodys should be release
-    b2Vec2 gravity = b2Vec2(0, 0);
-    _world = new b2World(gravity);
-    _world->SetAllowSleeping(false);
-    _world->SetContinuousPhysics(true);
-    //    _world->SetContactListener(this);
-    //    GLESDebugDraw*    m_debugDraw = new GLESDebugDraw( PTM_RATIO );
-    //    _world->SetDebugDraw(m_debugDraw);
-    //
-    //    uint32 flags = 0;
-    //    flags += b2Draw::e_shapeBit;
-    //    flags += b2Draw::e_jointBit;
-    //    flags += b2Draw::e_aabbBit;
-    //    flags += b2Draw::e_pairBit;
-    //    flags += b2Draw::e_centerOfMassBit;
-    //    m_debugDraw->SetFlags(flags);
-    
-    
-    /// add bounds
-    CCPoint botLeftPoint = this->boardCornerPoint();
-    float   boardShortStickLenght = boardShortStickLength();
-    
-    CCSize s = CCDirector::sharedDirector()->getWinSize();
-    b2BodyDef groundBodyDef;
-    groundBodyDef.position.Set(0, 0); // bottom-left corner
-    b2Body *groundBody = _world->CreateBody(& groundBodyDef);
-    b2EdgeShape groundBox;
-    
-    
-    /// bottom left
-    CCPoint botLeftPadPoint = CCPoint(botLeftPoint);
-    botLeftPadPoint.x += boardShortStickLenght;
-    groundBox.Set(vecFromPoint(botLeftPoint),
-                  vecFromPoint(botLeftPadPoint));
-    groundBody->CreateFixture(&groundBox, 0);
-    
-    /// left
-    CCPoint topLeftPoint = CCPoint(botLeftPoint);
-    topLeftPoint.y = s.height - botLeftPoint.y;
-    groundBox.Set(vecFromPoint(botLeftPoint),
-                  vecFromPoint(topLeftPoint));
-    groundBody->CreateFixture(&groundBox, 0);
-    
-    /// top left
-    CCPoint topLeftPadPoint = CCPoint(topLeftPoint);
-    topLeftPadPoint.x += boardShortStickLenght;
-    groundBox.Set(vecFromPoint(topLeftPoint),
-                  vecFromPoint(topLeftPadPoint));
-    groundBody->CreateFixture(&groundBox, 0);
-    
-    
-    /// bot right
-    CCPoint botRightPoint = CCPointMake(s.width - botLeftPoint.x, botLeftPoint.y);
-    groundBox.Set(vecFromPoint(botRightPoint),
-                  vecFromPoint(CCPointMake(botRightPoint.x - boardShortStickLenght,
-                                           botLeftPadPoint.y)));
-    groundBody->CreateFixture(&groundBox, 0);
-    
-    /// right
-    CCPoint topRightPoint = CCPoint(botRightPoint);
-    topRightPoint.y = s.height - botLeftPadPoint.y;
-    groundBox.Set(vecFromPoint(botRightPoint),
-                  vecFromPoint(topRightPoint));
-    groundBody->CreateFixture(&groundBox, 0);
-    
-    /// topRight
-    groundBox.Set(vecFromPoint(topRightPoint),
-                  vecFromPoint(CCPointMake(topRightPoint.x - boardShortStickLenght, topRightPoint.y)));
-    groundBody->CreateFixture(&groundBox, 0);
-}
-
-
-void BYGameScene::update(float dt) {
-    //It is recommended that a fixed time step is used with Box2D for stability
-    //of the simulation, however, we are using a variable time step here.
-    //You need to make an informed choice, the following URL is useful
-    //http://gafferongames.com/game-physics/fix-your-timestep/
-    
-    int velocityIterations = 8;
-    int positionIterations = 1;
-    
-    // Instruct the world to perform a single step of simulation. It is
-    // generally best to keep the time step and iterations fixed.
-    _world->Step(dt, velocityIterations, positionIterations);
-    
-    //Iterate over the bodies in the physics world
-    CCSprite *ballSprite = _ball->getSprite();
-    for (b2Body* b = _world->GetBodyList(); b; b = b->GetNext())
-    {
-        if (b->GetUserData() != NULL) {
-            //Synchronize the AtlasSprites position and rotation with the corresponding body
-            CCSprite* myActor = (CCSprite*)b->GetUserData();
-            b2Vec2 position = b->GetPosition();
-            CCPoint point = CCPointMake( position.x * PTM_RATIO,
-                                    position.y * PTM_RATIO);
-            myActor->setPosition(point);
-            
-            /// if ball
-            if (myActor == ballSprite) {
-                this->checkIfBallScored(point);
-            }
-            
-        }
-    }
-}
-
-
-void BYGameScene::resetGameObjects() {
-    CCSize winSize = CCDirector::sharedDirector()->getWinSize();
-    
-    float quarterHeight = (float) winSize.height / 4;
-    _topPaddle->setPosition(CCPointMake(winSize.width / 2,  quarterHeight *3));
-    _botPaddle->setPosition(CCPointMake(winSize.width / 2, quarterHeight / 2));
-    
-    _ball->setPosition(CCPointMake(winSize.width / 2, quarterHeight * 2));
-    _ball->resetForces();
-}
-
-
 #pragma mark - b2ContactListener
 
 void BYGameScene::BeginContact(b2Contact* contact) {
-    CCLog("contact began");
-    b2Fixture* fixtureA = contact->GetFixtureA();
-    b2Fixture* fixtureB = contact->GetFixtureB();
-    
-    b2Body* bodyA = fixtureA->GetBody();
-    b2Body* bodyB = fixtureB->GetBody();
-    
-    CCObject* objA = (CCObject*) bodyA->GetUserData();
-    CCObject* objB = (CCObject*) bodyB->GetUserData();
-    
-    /// return if not ball
-    if (objA != _ball
-        || objB != _ball) {
-        return ;
-    }
-    CCLog("ball contacted");
+//    CCLog("contact began");
+//    b2Fixture* fixtureA = contact->GetFixtureA();
+//    b2Fixture* fixtureB = contact->GetFixtureB();
+//    
+//    b2Body* bodyA = fixtureA->GetBody();
+//    b2Body* bodyB = fixtureB->GetBody();
+//    
+//    CCObject* objA = (CCObject*) bodyA->GetUserData();
+//    CCObject* objB = (CCObject*) bodyB->GetUserData();
+//    
+//    /// return if not ball
+//    if (objA != _ball
+//        || objB != _ball) {
+//        return ;
+//    }
+//    CCLog("ball contacted");
 }
 
 

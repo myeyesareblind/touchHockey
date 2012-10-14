@@ -18,6 +18,7 @@ class BYPaddle : public BYGameObject {
 private:
     cocos2d::CCPoint _maxPositionPoint;
     cocos2d::CCPoint _minPositionPoint;
+    
 /// weak pointers, created in BYGameScene
     b2Body          *_groundBody;
     
@@ -25,9 +26,11 @@ private:
     b2MouseJoint    *_mouseJoint;
     
 protected:
+    
     void jumpToPoint(const cocos2d::CCPoint& point);
     
     virtual void initPhysics(b2World* world);
+    
     typedef BYGameObject super;
     
 public:

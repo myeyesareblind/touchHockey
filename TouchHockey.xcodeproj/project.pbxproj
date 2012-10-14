@@ -262,6 +262,7 @@
 		25E61E4D16202A6C002C6AC7 /* game.plist in Resources */ = {isa = PBXBuildFile; fileRef = 25E61E4B16202A6B002C6AC7 /* game.plist */; };
 		25E61E4E16202A6C002C6AC7 /* game.png in Resources */ = {isa = PBXBuildFile; fileRef = 25E61E4C16202A6B002C6AC7 /* game.png */; };
 		25E61E5116202F2B002C6AC7 /* BYPaddle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 25E61E4F16202F2B002C6AC7 /* BYPaddle.cpp */; };
+		25F7248E162B081A002ADD40 /* BYGameLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 25F7248C162B081A002ADD40 /* BYGameLayer.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -812,6 +813,8 @@
 		25E61E4C16202A6B002C6AC7 /* game.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = game.png; path = Resources/game.png; sourceTree = "<group>"; };
 		25E61E4F16202F2B002C6AC7 /* BYPaddle.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BYPaddle.cpp; path = Classes/BYPaddle.cpp; sourceTree = "<group>"; };
 		25E61E5016202F2B002C6AC7 /* BYPaddle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BYPaddle.h; path = Classes/BYPaddle.h; sourceTree = "<group>"; };
+		25F7248C162B081A002ADD40 /* BYGameLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BYGameLayer.cpp; path = Classes/BYGameLayer.cpp; sourceTree = "<group>"; };
+		25F7248D162B081A002ADD40 /* BYGameLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BYGameLayer.h; path = Classes/BYGameLayer.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1882,9 +1885,8 @@
 		25B539691620D08D006B63CA /* Game */ = {
 			isa = PBXGroup;
 			children = (
+				25F7248A162B0808002ADD40 /* gameScene */,
 				25D22FE61621B21A00F243D0 /* gameObjects */,
-				25E61E3F1620141C002C6AC7 /* BYGameScene.h */,
-				25E61E3E1620141C002C6AC7 /* BYGameScene.cpp */,
 				25B34D74161EFF600082B8B4 /* HelloWorldScene.h */,
 				25B34D75161EFF600082B8B4 /* HelloWorldScene.cpp */,
 			);
@@ -1913,6 +1915,17 @@
 				25B5395416205D58006B63CA /* BYGameObject.h */,
 			);
 			name = gameObjects;
+			sourceTree = "<group>";
+		};
+		25F7248A162B0808002ADD40 /* gameScene */ = {
+			isa = PBXGroup;
+			children = (
+				25E61E3F1620141C002C6AC7 /* BYGameScene.h */,
+				25E61E3E1620141C002C6AC7 /* BYGameScene.cpp */,
+				25F7248C162B081A002ADD40 /* BYGameLayer.cpp */,
+				25F7248D162B081A002ADD40 /* BYGameLayer.h */,
+			);
+			name = gameScene;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -2221,6 +2234,7 @@
 				25E61E5116202F2B002C6AC7 /* BYPaddle.cpp in Sources */,
 				25B5395116205D3B006B63CA /* BYBall.cpp in Sources */,
 				25B5395516205D58006B63CA /* BYGameObject.cpp in Sources */,
+				25F7248E162B081A002ADD40 /* BYGameLayer.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

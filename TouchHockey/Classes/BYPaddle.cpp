@@ -81,19 +81,20 @@ void BYPaddle::setMoveArea(const CCRect& moveArea) {
 
 
 void BYPaddle::handleTouchAtPoint(const CCPoint& pnt) {
-    
-    CCPoint retPoint(pnt);
-    /// trim max values
-    float y = min(retPoint.y, _maxPositionPoint.y);
-    float x = min(retPoint.x, _maxPositionPoint.x);
-    
-    /// trim min values
-    y = max(y, _minPositionPoint.y);
-    x = max(x, _minPositionPoint.x);
-    
-    retPoint.x = x;
-    retPoint.y = y;
-    this->jumpToPoint(retPoint);
+//    
+//    CCPoint retPoint(pnt);
+//    /// trim max values
+//    float y = min(retPoint.y, _maxPositionPoint.y);
+//    float x = min(retPoint.x, _maxPositionPoint.x);
+//    
+//    /// trim min values
+//    y = max(y, _minPositionPoint.y);
+//    x = max(x, _minPositionPoint.x);
+//    
+//    retPoint.x = x;
+//    retPoint.y = y;
+//    this->jumpToPoint(retPoint);
+    this->jumpToPoint(pnt);
 }
 
 

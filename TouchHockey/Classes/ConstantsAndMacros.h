@@ -15,4 +15,5 @@
 
 #define BYGoalsPerGame 7
 
+#define CCDirectorManager  CCDirector::sharedDirector()
 #endif
