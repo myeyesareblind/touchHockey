@@ -57,11 +57,11 @@ BYMainMenuLayer::~BYMainMenuLayer() {
 
 
 void BYMainMenuLayer::MenuButton_SinglePlayerHandle(CCMenuItem* item) {
-    CCAssert(0, "To be implemented");
+    CCDirector::sharedDirector()->pushScene(BYGameScene::singlePlayerScene());
 }
 
 void BYMainMenuLayer::MenuButton_TwoPlayersHandle(CCMenuItem* item) {
-    CCDirector::sharedDirector()->pushScene(BYGameScene::scene());
+    CCDirector::sharedDirector()->pushScene(BYGameScene::multiPlayerScene());
 }
 
 void BYMainMenuLayer::MenuButton_SettingsHandle(CCMenuItem* itemClicked) {

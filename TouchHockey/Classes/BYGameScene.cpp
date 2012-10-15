@@ -25,16 +25,66 @@ const CCPoint BYGameScene::boardCornerPoint() {
 }
 
 
-CCScene* BYGameScene::scene() {
+
+cocos2d::CCScene* BYGameScene::scene() {
     CCScene *scene = CCScene::create();
     
     // add layer as a child to scene
     CCLayer* layer = new BYGameScene();
+    layer->setTag(GUI_MainLayer);
     scene->addChild(layer);
     layer->autorelease();
     
     return scene;
 }
+
+
+cocos2d::CCScene* BYGameScene::multiPlayerScene() {
+    
+    CCScene*        scene = BYGameScene::scene();
+    BYGameScene*    layer = (BYGameScene*) scene->getChildByTag(GUI_MainLayer);
+    layer->initWithMultiPlayer();
+    
+    return scene;
+}
+
+
+cocos2d::CCScene* BYGameScene::singlePlayerScene() {
+    CCScene* scene = BYGameScene::scene();
+    
+    BYGameScene*    layer = (BYGameScene*) scene->getChildByTag(GUI_MainLayer);
+    layer->initWithSinglePlayer();
+    
+    return scene;
+}
+
+
+bool BYGameScene::initWithMultiPlayer() {
+    m_gameLayer = new BYGameLayer();
+    
+    m_gameLayer->initWithMultiPlayer();
+    m_gameLayer->setScene(this);
+    
+    this->addChild(m_gameLayer);
+    m_gameLayer->autorelease();
+    
+    return true;
+}
+
+
+
+bool BYGameScene::initWithSinglePlayer() {
+    m_gameLayer = new BYGameLayer();
+    
+    m_gameLayer->initWithSinglePlayer();
+    m_gameLayer->setScene(this);
+    
+    this->addChild(m_gameLayer);
+    m_gameLayer->autorelease();
+    
+    return true;
+}
+
 
 
 BYGameScene::BYGameScene() {
@@ -49,15 +99,7 @@ BYGameScene::BYGameScene() {
     background->cocos2d::CCNode::setPosition(winSize.width /2, winSize.height / 2);
     this->addChild(background);
     this->setContentSize(background->getContentSize());
-    
-    m_gameLayer = new BYGameLayer();
-    
-    m_gameLayer->initWithMultiPlayer();
-    m_gameLayer->setScene(this);
-
-    this->addChild(m_gameLayer);
-    m_gameLayer->autorelease();
-    
+        
     this->loadUI();
     
     this->resetScore();

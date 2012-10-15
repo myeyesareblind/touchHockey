@@ -22,6 +22,7 @@ private:
     
     typedef enum {
         GUI_Incorrect,
+        GUI_MainLayer,
         GUI_PauseMenu,
         GUI_PauseMenu_Continue,
         GUI_GameFinishMenu,
@@ -62,8 +63,29 @@ private:
     
     
     BYGameLayer*        m_gameLayer;
-public:
+    
+    
+    bool        initWithMultiPlayer();
+    
+    
+    bool        initWithSinglePlayer();
+    
+    
+    
     static cocos2d::CCScene* scene();
+    
+    
+public:
+    
+    
+    static cocos2d::CCScene* multiPlayerScene();
+    
+    
+    static cocos2d::CCScene* singlePlayerScene();
+    
+    
+    
+    
     BYGameScene();
     ~BYGameScene();
         

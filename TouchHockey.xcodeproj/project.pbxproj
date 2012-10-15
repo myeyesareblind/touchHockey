@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2562459A162BC95900ACB9B2 /* BYAIPaddle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 25624598162BC95900ACB9B2 /* BYAIPaddle.cpp */; };
+		2562459D162BCD6F00ACB9B2 /* BYPlayerPaddle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2562459B162BCD6F00ACB9B2 /* BYPlayerPaddle.cpp */; };
 		25AA383F162319580058CBC8 /* ui.plist in Resources */ = {isa = PBXBuildFile; fileRef = 25AA383D162319550058CBC8 /* ui.plist */; };
 		25AA3840162319580058CBC8 /* ui.png in Resources */ = {isa = PBXBuildFile; fileRef = 25AA383E162319560058CBC8 /* ui.png */; };
 		25B34A34161EFF5B0082B8B4 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 25B34A33161EFF5B0082B8B4 /* QuartzCore.framework */; };
@@ -266,6 +268,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		25624598162BC95900ACB9B2 /* BYAIPaddle.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BYAIPaddle.cpp; path = Classes/BYAIPaddle.cpp; sourceTree = "<group>"; };
+		25624599162BC95900ACB9B2 /* BYAIPaddle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BYAIPaddle.h; path = Classes/BYAIPaddle.h; sourceTree = "<group>"; };
+		2562459B162BCD6F00ACB9B2 /* BYPlayerPaddle.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BYPlayerPaddle.cpp; sourceTree = "<group>"; };
+		2562459C162BCD6F00ACB9B2 /* BYPlayerPaddle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BYPlayerPaddle.h; sourceTree = "<group>"; };
 		25AA383D162319550058CBC8 /* ui.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = ui.plist; path = Resources/ui.plist; sourceTree = "<group>"; };
 		25AA383E162319560058CBC8 /* ui.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ui.png; path = Resources/ui.png; sourceTree = "<group>"; };
 		25B34A2F161EFF5B0082B8B4 /* TouchHockey.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TouchHockey.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1913,6 +1919,10 @@
 				25B5395016205D3B006B63CA /* BYBall.h */,
 				25B5395316205D58006B63CA /* BYGameObject.cpp */,
 				25B5395416205D58006B63CA /* BYGameObject.h */,
+				25624598162BC95900ACB9B2 /* BYAIPaddle.cpp */,
+				25624599162BC95900ACB9B2 /* BYAIPaddle.h */,
+				2562459B162BCD6F00ACB9B2 /* BYPlayerPaddle.cpp */,
+				2562459C162BCD6F00ACB9B2 /* BYPlayerPaddle.h */,
 			);
 			name = gameObjects;
 			sourceTree = "<group>";
@@ -1922,8 +1932,8 @@
 			children = (
 				25E61E3F1620141C002C6AC7 /* BYGameScene.h */,
 				25E61E3E1620141C002C6AC7 /* BYGameScene.cpp */,
-				25F7248C162B081A002ADD40 /* BYGameLayer.cpp */,
 				25F7248D162B081A002ADD40 /* BYGameLayer.h */,
+				25F7248C162B081A002ADD40 /* BYGameLayer.cpp */,
 			);
 			name = gameScene;
 			sourceTree = "<group>";
@@ -2235,6 +2245,8 @@
 				25B5395116205D3B006B63CA /* BYBall.cpp in Sources */,
 				25B5395516205D58006B63CA /* BYGameObject.cpp in Sources */,
 				25F7248E162B081A002ADD40 /* BYGameLayer.cpp in Sources */,
+				2562459A162BC95900ACB9B2 /* BYAIPaddle.cpp in Sources */,
+				2562459D162BCD6F00ACB9B2 /* BYPlayerPaddle.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

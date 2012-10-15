@@ -42,16 +42,6 @@ void BYGameObject::initPhysics(b2World* world) {
 }
 
 
-bool BYGameObject::containsPoint(CCPoint& pnt) {
-    const CCPoint& origin  = _bodySprite->getPosition();
-    const CCSize&  size    = _bodySprite->getContentSize();
-    CCRect thisRect = CCRectMake(origin.x,
-                                 origin.y,
-                                 size.width,
-                                 size.height);
-    return true;
-//    return thisRect.containsPoint(pnt);
-}
 
 void BYGameObject::setPosition(const cocos2d::CCPoint& point) {
     /// move sprite
@@ -66,3 +56,5 @@ void BYGameObject::setPosition(const cocos2d::CCPoint& point) {
 cocos2d::CCSprite* BYGameObject::getSprite(void) {
     return _bodySprite;
 }
+
+

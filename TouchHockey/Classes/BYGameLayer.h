@@ -12,8 +12,9 @@
 
 #include <iostream>
 #include "cocos2d.h"
-#include "BYPaddle.h"
+#include "BYPlayerPaddle.h"
 #include "BYBall.h"
+#include "BYAIPaddle.h"
 
 typedef enum {
     BYGamePlayer_incorrect,
@@ -28,6 +29,13 @@ class BYGameScene;
 
 class BYGameLayer : public cocos2d::CCLayer{
     
+    typedef enum {
+        GameMode_Multiplayer,
+        GameMode_SinglePlayer
+    } GameMode;
+    
+    GameMode m_GameMode;
+    
     typedef CCLayer super;
     
     
@@ -35,9 +43,10 @@ class BYGameLayer : public cocos2d::CCLayer{
     
     
     /// Game Objects, strong refs
-    BYPaddle*       m_topPaddle;
-    BYPaddle*       m_botPaddle;
-    BYBall*         m_ball;
+    BYAIPaddle*           m_aiPaddle;     /// replaces top player
+    BYPlayerPaddle*       m_topPaddle;    /// = NULL for single player
+    BYPlayerPaddle*       m_botPaddle;
+    BYBall*               m_ball;
 
 
     b2World*        m_world; /// strong ref, deleted in ~BYGameScene()

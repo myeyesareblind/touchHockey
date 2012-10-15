@@ -15,17 +15,16 @@
 
 class BYPaddle : public BYGameObject {
     
-private:
+protected:
     cocos2d::CCPoint _maxPositionPoint;
     cocos2d::CCPoint _minPositionPoint;
+
     
-/// weak pointers, created in BYGameScene
+    /// weak pointers, created in BYGameScene
     b2Body          *_groundBody;
     
-/// for moving body
+    /// for moving body
     b2MouseJoint    *_mouseJoint;
-    
-protected:
     
     void jumpToPoint(const cocos2d::CCPoint& point);
     
@@ -38,13 +37,7 @@ public:
     virtual ~BYPaddle();
     
     virtual const b2Vec2 getLinearVelocity();
-    
-    /// touches are passed here from BYGameObject.
-    /// for any event, there will be 1 only touch passed for paddle
-    /// touchEnded event is ignored
-    /// will trim touches according to _max and _min positionPoint
-    void handleTouchAtPoint(const cocos2d::CCPoint& pnt);
-    
+        
     /// rect will be trimmed to count radius
     void setMoveArea(const cocos2d::CCRect& rect);
     

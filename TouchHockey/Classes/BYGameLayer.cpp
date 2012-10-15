@@ -49,13 +49,13 @@ bool BYGameLayer::initWithMultiPlayer() {
     CCSize winSize = this->getContentSize();
     
     float quarterHeight = (float) winSize.height / 4;
-    m_topPaddle = new BYPaddle();
+    m_topPaddle = new BYPlayerPaddle();
     m_topPaddle->init(CCString::createWithFormat("paddle_yellow.png"),
                      m_world,
                      CCPointMake(winSize.width / 2,  quarterHeight *3));
     this->addChild(m_topPaddle->getSprite());
     
-    m_botPaddle = new BYPaddle();
+    m_botPaddle = new BYPlayerPaddle();
     m_botPaddle->init(CCString::createWithFormat("paddle_green.png"),
                      m_world,
                      CCPointMake(winSize.width / 2, quarterHeight / 2));
@@ -68,6 +68,46 @@ bool BYGameLayer::initWithMultiPlayer() {
                 m_world,
                 CCPointMake(winSize.width / 2, quarterHeight * 2));
     this->addChild(m_ball->getSprite());
+    
+    m_GameMode  = GameMode_Multiplayer;
+    
+    m_aiPaddle  = NULL;
+    
+    return true;
+}
+
+
+
+bool BYGameLayer::initWithSinglePlayer() {
+    /// add players
+    CCSize winSize = this->getContentSize();
+    
+    float quarterHeight = (float) winSize.height / 4;
+    
+    m_topPaddle = NULL;
+    
+    m_aiPaddle  = new BYAIPaddle();
+    m_aiPaddle->init(CCString::createWithFormat("paddle_yellow.png"),
+                     m_world,
+                     CCPointMake(winSize.width / 2,  quarterHeight *3));
+    this->addChild(m_aiPaddle->getSprite());
+    
+    
+    m_botPaddle = new BYPlayerPaddle();
+    m_botPaddle->init(CCString::createWithFormat("paddle_green.png"),
+                      m_world,
+                      CCPointMake(winSize.width / 2, quarterHeight / 2));
+    this->addChild(m_botPaddle->getSprite());
+    
+    
+    /// add ball
+    m_ball = new BYBall();
+    m_ball->init(CCString::createWithFormat("ball_blue.png"),
+                 m_world,
+                 CCPointMake(winSize.width / 2, quarterHeight * 2));
+    this->addChild(m_ball->getSprite());
+    
+    m_GameMode  = GameMode_SinglePlayer;
     
     return true;
 }
@@ -97,9 +137,10 @@ void BYGameLayer::loadBoxWorld() {
     
     
     /// add bounds
-    float   boardShortStickLenght = this->getContentSize().width * GOAL_SIZE;
     
     CCSize s = this->getContentSize();
+    float   boardShortStickLenght = (s.width - s.width * GOAL_SIZE) / 2;
+    
     b2BodyDef groundBodyDef;
     groundBodyDef.position.Set(0, 0); // bottom-left corner
     b2Body *groundBody = m_world->CreateBody(& groundBodyDef);
