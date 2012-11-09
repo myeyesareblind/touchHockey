@@ -10,11 +10,15 @@
 #include "Box2D.h"
 #include "ConstantsAndMacros.h"
 
+using namespace cocos2d;
+
+
 BYBall:: ~BYBall() {
-    
 }
 
+
 void BYBall::initPhysics(b2World* openWorld) {
+    
     b2BodyDef bodyDef;
     bodyDef.type     = b2_dynamicBody;
     bodyDef.position = vecFromPoint(_bodySprite->getPosition());
@@ -35,12 +39,6 @@ void BYBall::initPhysics(b2World* openWorld) {
 
     _bodyBox->CreateFixture(&fixtureDef);
 }
-
-
-const b2Vec2 BYBall::getLinearVelocity() {
-    return _bodyBox->GetLinearVelocity();
-}
-
 
 void BYBall::resetForces() {
     _bodyBox->SetLinearVelocity(b2Vec2_zero);

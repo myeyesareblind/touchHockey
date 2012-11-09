@@ -32,12 +32,11 @@ protected:
     
     typedef BYGameObject super;
     
+    
 public:
     BYPaddle();
     virtual ~BYPaddle();
     
-    virtual const b2Vec2 getLinearVelocity();
-        
     /// rect will be trimmed to count radius
     void setMoveArea(const cocos2d::CCRect& rect);
     

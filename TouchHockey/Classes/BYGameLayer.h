@@ -70,6 +70,12 @@ public:
     BYGameLayer();
     ~BYGameLayer();
     
+#if COCOS2D_DEBUG > 0
+
+    virtual void draw();
+    
+#endif
+    
     
     void    pauseWorld();
     
@@ -86,7 +92,7 @@ public:
     void    setScene(BYGameScene* scene);
     
     /// set positions, remove forces from ball and paddle mousejoints
-    void resetGameObjects();
+    void    resetGameObjects();
     
     /// cclayer
     virtual void ccTouchesBegan(cocos2d::CCSet *pTouches, cocos2d::CCEvent *pEvent);

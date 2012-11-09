@@ -9,6 +9,7 @@
 #include "BYGameLayer.h"
 #include "BYGameScene.h"
 #include "ConstantsAndMacros.h"
+#include "GameObjectDefinitions.h"
 
 using namespace cocos2d;
 
@@ -29,7 +30,6 @@ BYGameLayer::BYGameLayer() {
         
     this->loadBoxWorld();
     
-    this->scheduleUpdate();
 }
 
 
@@ -61,7 +61,6 @@ bool BYGameLayer::initWithMultiPlayer() {
                      CCPointMake(winSize.width / 2, quarterHeight / 2));
     this->addChild(m_botPaddle->getSprite());
     
-    
     /// add ball
     m_ball = new BYBall();
     m_ball->init(CCString::createWithFormat("ball_blue.png"),
@@ -72,6 +71,8 @@ bool BYGameLayer::initWithMultiPlayer() {
     m_GameMode  = GameMode_Multiplayer;
     
     m_aiPaddle  = NULL;
+    
+    this->scheduleUpdate();
     
     return true;
 }
@@ -86,19 +87,19 @@ bool BYGameLayer::initWithSinglePlayer() {
     
     m_topPaddle = NULL;
     
+    /// ai player
     m_aiPaddle  = new BYAIPaddle();
     m_aiPaddle->init(CCString::createWithFormat("paddle_yellow.png"),
                      m_world,
                      CCPointMake(winSize.width / 2,  quarterHeight *3));
     this->addChild(m_aiPaddle->getSprite());
     
-    
     m_botPaddle = new BYPlayerPaddle();
     m_botPaddle->init(CCString::createWithFormat("paddle_green.png"),
                       m_world,
                       CCPointMake(winSize.width / 2, quarterHeight / 2));
-    this->addChild(m_botPaddle->getSprite());
     
+    this->addChild(m_botPaddle->getSprite());
     
     /// add ball
     m_ball = new BYBall();
@@ -108,6 +109,11 @@ bool BYGameLayer::initWithSinglePlayer() {
     this->addChild(m_ball->getSprite());
     
     m_GameMode  = GameMode_SinglePlayer;
+    
+    m_aiPaddle->setBall(m_ball);
+    m_aiPaddle->setDifficulty(choboAI());
+    
+    this->scheduleUpdate();
     
     return true;
 }
@@ -239,7 +245,9 @@ void BYGameLayer::delegateTouchesToPaddles(CCSet* pTouches) {
                 
         if (touchPoint.y > halfY) {
             if (! passedToTopPaddle) {
-                m_topPaddle->handleTouchAtPoint(touchPoint);
+                if (m_topPaddle) {
+                    m_topPaddle->handleTouchAtPoint(touchPoint);
+                }
                 passedToBotPaddle = true;
             }
         }
@@ -268,7 +276,8 @@ void BYGameLayer::update(float dt) {
     // generally best to keep the time step and iterations fixed.
     m_world->Step(dt, velocityIterations, positionIterations);
     
-    //Iterate over the bodies in the physics world
+    /// Iterate over the bodies in the physics world:
+    /// set Ball / Paddles positions. Paddles position is set to inform user of some kind. Not really sure with this, might remove later
     CCSprite *ballSprite = m_ball->getSprite();
     for (b2Body* b = m_world->GetBodyList(); b; b = b->GetNext())
     {
@@ -284,8 +293,14 @@ void BYGameLayer::update(float dt) {
             if (myActor == ballSprite) {
                 this->checkIfBallScored(point);
             }
-            
         }
+    }
+    
+    
+    if (m_GameMode == GameMode_SinglePlayer) {
+        
+        CCAssert(m_aiPaddle, "");
+        m_aiPaddle->update(dt);
     }
 }
 
@@ -295,7 +310,15 @@ void BYGameLayer::resetGameObjects() {
     CCSize winSize = this->getContentSize();
     
     float quarterHeight = (float) winSize.height / 4;
-    m_topPaddle->setPosition(CCPointMake(winSize.width / 2,  quarterHeight *3));
+    
+    if (m_topPaddle) {
+        m_topPaddle->setPosition(CCPointMake(winSize.width / 2,  quarterHeight *3));
+    }
+    
+    if (m_aiPaddle) {
+        m_aiPaddle->setPosition(CCPointMake(winSize.width / 2,  quarterHeight *3));
+    }
+    
     m_botPaddle->setPosition(CCPointMake(winSize.width / 2, quarterHeight / 2));
     
     m_ball->setPosition(CCPointMake(winSize.width / 2, quarterHeight * 2));
@@ -338,3 +361,16 @@ void BYGameLayer::resumeWorld() {
 }
 
 
+#if COCOS2D_DEBUG > 0
+
+void BYGameLayer::draw() {
+    CCPoint vec     = m_ball->getLinearVelocity();
+    CCPoint pointA  = m_ball->getSprite()->getPosition();
+    CCPoint pointB(pointA);
+    pointB.x += vec.x * 100;
+    pointB.y += vec.y * 100;
+    ccDrawLine( pointA, pointB );
+//    CCLog("{%f, %f}", vec.x, vec.y);
+}
+
+#endif

@@ -7,7 +7,6 @@
 //
 
 #include "BYGameObject.h"
-#include "ConstantsAndMacros.h"
 
 using namespace cocos2d;
 
@@ -37,6 +36,7 @@ bool BYGameObject::init(cocos2d::CCString* spriteFileName,
 }
 
 
+
 void BYGameObject::initPhysics(b2World* world) {
     CCAssert(0x00, "Subclass should overwrite this method");
 }
@@ -57,4 +57,9 @@ cocos2d::CCSprite* BYGameObject::getSprite(void) {
     return _bodySprite;
 }
 
+
+cocos2d::CCPoint BYGameObject::getLinearVelocity() {
+    b2Vec2 vec = _bodyBox->GetLinearVelocity();
+    return pointFromVec(vec);
+}
 

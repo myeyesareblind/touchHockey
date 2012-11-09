@@ -9,6 +9,7 @@
 #include "BYPaddle.h"
 #include "Box2D.h"
 #include "ConstantsAndMacros.h"
+#include "GameObjectDefinitions.h"
 
 using namespace cocos2d;
 
@@ -34,7 +35,7 @@ void BYPaddle::initPhysics(b2World* openWorld) {
     
     b2FixtureDef fixtureDef;
     fixtureDef.shape    = &circleShape;
-    fixtureDef.density  = 1.0f;
+    fixtureDef.density  = 100.0f;
     fixtureDef.friction = 0.99f;
     fixtureDef.restitution = 0.1f;
     
@@ -55,18 +56,12 @@ void BYPaddle::initPhysics(b2World* openWorld) {
     mouseJointDef.bodyA = _groundBody;
     mouseJointDef.bodyB = _bodyBox;
     mouseJointDef.collideConnected = true;
-    mouseJointDef.maxForce         = 2000.0f * _bodyBox->GetMass();
+    mouseJointDef.maxForce         = BYMouseJointForce_High * _bodyBox->GetMass();
     ///! it wont work without these
     mouseJointDef.target           = _bodyBox->GetPosition();
     
     _mouseJoint = (b2MouseJoint *) _world->CreateJoint(&mouseJointDef);
 }
-
-
-const b2Vec2  BYPaddle::getLinearVelocity() {
-    return b2Vec2(0,0);
-}
-
 
 
 void BYPaddle::setMoveArea(const CCRect& moveArea) {
@@ -94,6 +89,3 @@ void BYPaddle::setPosition(const cocos2d::CCPoint& point) {
     _bodyBox->SetTransform(vecFromPoint(point), 0);
     this->jumpToPoint(point);
 }
-
-
-

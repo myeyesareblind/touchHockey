@@ -11,16 +11,17 @@
 
 #include <iostream>
 #include "BYGameObject.h"
+#include "GameObjectDefinitions.h"
+
 
 class BYBall : public BYGameObject {
-
+    
 protected:
     typedef BYGameObject super;
     virtual void initPhysics(b2World* world);
     
 public:
     virtual ~BYBall();
-    virtual const b2Vec2 getLinearVelocity();
     void    resetForces();
 };
 

@@ -7,11 +7,16 @@
 //
 
 #include "BYAIPaddle.h"
+#include "BYBall.h"
+
+using namespace cocos2d;
 
 
-const b2Vec2 BYAIPaddle::getLinearVelocity() {
-    return b2Vec2_zero;
-}
-
-BYAIPaddle::BYAIPaddle() {
+void BYAIPaddle::update(float d) {
+    if (! m_stateMachine) {
+        /// cant put this in constructor since I m using init
+        m_stateMachine = new StateMachine<BYAIPaddle>(this);
+        m_stateMachine->SetCurrentState(BYAIStateFollowBall::Instance());
+    }
+    m_stateMachine->Update();
 }

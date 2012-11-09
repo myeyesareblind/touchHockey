@@ -12,11 +12,14 @@
 #include <iostream>
 #include "BYPaddle.h"
 
+
 class BYPlayerPaddle : public BYPaddle {
     
 private:
     cocos2d::CCPoint _maxPositionPoint;
     cocos2d::CCPoint _minPositionPoint;
+    
+    
     
     void jumpToPoint(const cocos2d::CCPoint& point);
     

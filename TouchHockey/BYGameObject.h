@@ -12,6 +12,7 @@
 #include <iostream>
 #include "cocos2d.h"
 #include "Box2D.h"
+#include "ConstantsAndMacros.h"
 
 
 /// root class for BYPaddle and BYBall
@@ -37,14 +38,14 @@ public:
                  const cocos2d::CCPoint& position);
         
     /// getters
-    cocos2d::CCSprite* getSprite(void);
-    b2Body*            getWorldBody();
+    virtual cocos2d::CCSprite* getSprite(void);
+    virtual b2Body*            getWorldBody();
     
     /// will set sprite / body at that point
     virtual void setPosition(const cocos2d::CCPoint& point);
     
     /// return a copy, as does box2d
-    virtual const b2Vec2 getLinearVelocity() = 0;
+    virtual cocos2d::CCPoint getLinearVelocity();
 };
 
 
