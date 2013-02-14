@@ -27,9 +27,6 @@ public:
   //this will execute when the state is exited. 
   virtual void Exit(entity_type*)=0;
 
-  //this executes if the agent receives a message from the 
-  //message dispatcher
-  virtual bool OnMessage(entity_type*, const Telegram&)=0;
 };
 
 #endif

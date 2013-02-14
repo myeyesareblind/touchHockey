@@ -15,7 +15,6 @@
 #include <string>
 
 #include "State.h"
-#include "Messaging/Telegram.h"
 
 
 template <class entity_type>
@@ -59,26 +58,6 @@ public:
     //same for the current state
     if (m_pCurrentState) m_pCurrentState->Execute(m_pOwner);
   }
-
-  bool  HandleMessage(const Telegram& msg)const
-  {
-    //first see if the current state is valid and that it can handle
-    //the message
-    if (m_pCurrentState && m_pCurrentState->OnMessage(m_pOwner, msg))
-    {
-      return true;
-    }
-  
-    //if not, and if a global state has been implemented, send 
-    //the message to the global state
-    if (m_pGlobalState && m_pGlobalState->OnMessage(m_pOwner, msg))
-    {
-      return true;
-    }
-
-    return false;
-  }
-
   //change to a new state
   void  ChangeState(State<entity_type>* pNewState)
   {

@@ -273,6 +273,8 @@
 		25624599162BC95900ACB9B2 /* BYAIPaddle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BYAIPaddle.h; path = Classes/BYAIPaddle.h; sourceTree = "<group>"; };
 		2562459B162BCD6F00ACB9B2 /* BYPlayerPaddle.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BYPlayerPaddle.cpp; path = Classes/BYPlayerPaddle.cpp; sourceTree = "<group>"; };
 		2562459C162BCD6F00ACB9B2 /* BYPlayerPaddle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BYPlayerPaddle.h; path = Classes/BYPlayerPaddle.h; sourceTree = "<group>"; };
+		257812C616CD777A005B689D /* State.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = State.h; sourceTree = "<group>"; };
+		257812C716CD777A005B689D /* StateMachine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StateMachine.h; sourceTree = "<group>"; };
 		2580CB47162C44510096F377 /* GameObjectDefinitions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = GameObjectDefinitions.h; path = Classes/GameObjectDefinitions.h; sourceTree = "<group>"; };
 		25AA383D162319550058CBC8 /* ui.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = ui.plist; path = Resources/ui.plist; sourceTree = "<group>"; };
 		25AA383E162319560058CBC8 /* ui.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ui.png; path = Resources/ui.png; sourceTree = "<group>"; };
@@ -823,8 +825,6 @@
 		25E61E5016202F2B002C6AC7 /* BYPaddle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BYPaddle.h; path = Classes/BYPaddle.h; sourceTree = "<group>"; };
 		25F7248C162B081A002ADD40 /* BYGameLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BYGameLayer.cpp; path = Classes/BYGameLayer.cpp; sourceTree = "<group>"; };
 		25F7248D162B081A002ADD40 /* BYGameLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BYGameLayer.h; path = Classes/BYGameLayer.h; sourceTree = "<group>"; };
-		25FA95641631F83E0040E20E /* State.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = State.h; path = Classes/State.h; sourceTree = "<group>"; };
-		25FA95651631F83E0040E20E /* StateMachine.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = StateMachine.h; path = Classes/StateMachine.h; sourceTree = "<group>"; };
 		25FA956F1631F9120040E20E /* BYAIStates.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BYAIStates.cpp; path = Classes/BYAIStates.cpp; sourceTree = "<group>"; };
 		25FA95701631F9130040E20E /* BYAIStates.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BYAIStates.h; path = Classes/BYAIStates.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -849,6 +849,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		257812C316CD7779005B689D /* BaseAI */ = {
+			isa = PBXGroup;
+			children = (
+				257812C616CD777A005B689D /* State.h */,
+				257812C716CD777A005B689D /* StateMachine.h */,
+			);
+			name = BaseAI;
+			path = Classes/BaseAI;
+			sourceTree = "<group>";
+		};
 		25B34A24161EFF5B0082B8B4 = {
 			isa = PBXGroup;
 			children = (
@@ -1955,10 +1965,9 @@
 		25FA95631631F6300040E20E /* AI */ = {
 			isa = PBXGroup;
 			children = (
+				257812C316CD7779005B689D /* BaseAI */,
 				25624598162BC95900ACB9B2 /* BYAIPaddle.cpp */,
 				25624599162BC95900ACB9B2 /* BYAIPaddle.h */,
-				25FA95641631F83E0040E20E /* State.h */,
-				25FA95651631F83E0040E20E /* StateMachine.h */,
 				25FA956F1631F9120040E20E /* BYAIStates.cpp */,
 				25FA95701631F9130040E20E /* BYAIStates.h */,
 			);
